@@ -1,16 +1,45 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: center;
+  font-size: 100px;
+  margin-top: 0px;
+}
+</style>
+</head>
 <body>
 
 <p id="demo"></p>
 
 <script>
-var myVar = setInterval(myTimer, 1000);
+var seconds = 30;
+var mode =  "move";
 
-function myTimer() {
-  var d = new Date();
-  document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+function countDown() {
+  
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("demo").innerHTML = seconds + "s ";
+  
+  seconds = seconds - 1;
+  
+  if (seconds < 0) {
+  	if (mode == "move") {
+    	mode = "rest";
+    	seconds = 10;
+    } 
+    else {
+    	mode = "move";
+    	seconds = 30;
+    }
+  }
 }
+
+// Update the count down every 1 second
+var x = setInterval(countDown, 1000);
 </script>
 
 </body>
