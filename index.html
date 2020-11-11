@@ -25,53 +25,79 @@ p {
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-</head>
-<body>
 
 <script>
-var seconds = 30;
-var mode =  "exercise";
+	var seconds = 30;
+	var mode =  "exercise";
+    var mySound;
+	
+	// Update the count down every 1 second
+	var x = setInterval(countDown, 1000);
+	
+	function onload() {
+    	mySound = new sound("bounce.mp3");
+		// count down
+		document.getElementById("timer").innerHTML = seconds + "s";
+		countDown();
+	}
 
-function countDown() {
-  
-  document.getElementById("timer").innerHTML = seconds + "s";
-  
-  seconds = seconds - 1;  
-  
-  if (seconds < 0) {
-  	if (mode == "exercise") {
-    	mode = "rest";
-    } 
-    else {
-    	mode = "exercise";
+	function countDown() {
+	  
+	  // count down
+	  document.getElementById("timer").innerHTML = seconds + "s";
+	  seconds = seconds - 1;  
+	  
+	  if (seconds < 0) {
+		if (mode == "exercise") {
+			mode = "rest";
+		} 
+		else {
+			mode = "exercise";
+		}
+		seconds = document.getElementById(mode).value;
+	  }
+	  
+	  // background
+	  var ran = Math.trunc(Math.random() * 50) + 150;
+	  
+	  if (mode == "exercise") {
+		changeColor("rgb(255,"+ran+","+ran+")");
+	  }
+	  else {
+		changeColor("rgb("+ran+",255,"+ran+")");
+	  }
+      mySound.play();
+	  
+	}
+
+	function resetTime() {
+		mode = "exercise";
+		seconds = document.getElementById(mode).value;
+		changeColor("rgb(255,"+ran+","+ran+")");
+	}
+
+	function changeColor(color) { 
+		document.body.style.background = color; 
+	} 
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
     }
-    seconds = document.getElementById(mode).value;
-  }
-  
-  // background
-  var ran = Math.trunc(Math.random() * 50) + 150;
-  
-  if (mode == "exercise") {
-  	changeColor("rgb(255,"+ran+","+ran+")");
-  }
-  else {
-  	changeColor("rgb("+ran+",255,"+ran+")");
-  }
-  
+    this.stop = function(){
+        this.sound.pause();
+    }    
 }
-
-// Update the count down every 1 second
-var x = setInterval(countDown, 1000);
-
-function resetTime(exercise) {
-	mode = "exercise";
-	seconds = document.getElementById(mode).value;
-}
-
-function changeColor(color) { 
-	document.body.style.background = color; 
-} 
 </script>
+
+</head>
+<body onload="onload()">
 
 
 <div class="container">
