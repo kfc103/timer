@@ -5,42 +5,97 @@
 <style>
 p {
   text-align: center;
-  font-size: 100px;
+  font-size: 60px;
   margin-top: 0px;
 }
+.container { 
+  height: 200px;
+  position: relative;
+}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 </style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
-<p id="demo"></p>
-
 <script>
 var seconds = 30;
-var mode =  "move";
+var mode =  "exercise";
 
 function countDown() {
   
-    
-  // Output the result in an element with id="demo"
-  document.getElementById("demo").innerHTML = seconds + "s ";
+  document.getElementById("timer").innerHTML = seconds + "s";
   
-  seconds = seconds - 1;
+  seconds = seconds - 1;  
   
   if (seconds < 0) {
-  	if (mode == "move") {
+  	if (mode == "exercise") {
     	mode = "rest";
-    	seconds = 10;
     } 
     else {
-    	mode = "move";
-    	seconds = 30;
+    	mode = "exercise";
     }
+    seconds = document.getElementById(mode).value;
   }
+  
+  // background
+  var ran = Math.trunc(Math.random() * 50) + 150;
+  
+  if (mode == "exercise") {
+  	changeColor("rgb(255,"+ran+","+ran+")");
+  }
+  else {
+  	changeColor("rgb("+ran+",255,"+ran+")");
+  }
+  
 }
 
 // Update the count down every 1 second
 var x = setInterval(countDown, 1000);
+
+function resetTime(exercise) {
+	mode = "exercise";
+	seconds = document.getElementById(mode).value;
+}
+
+function changeColor(color) { 
+	document.body.style.background = color; 
+} 
 </script>
+
+
+<div class="container">
+  <div class="center">  	
+      <form>
+      <table style="width:100%">
+      <tr>
+        <td>Exercise</td>
+        <td><input type="text" id="exercise" name="exercise" value="30"></td>
+      </tr>
+	  <tr>
+	    <td>Rest</td>
+		<td><input type="text" id="rest" name="rest" value="10"></td>
+      </tr>
+      </table>
+      </form>
+  	
+    
+  	<input type="submit" value="Reset Timer" onclick="resetTime()">
+    
+    <!--<label id="timer"></label>-->
+    <p id="timer"></p>
+  </div>
+</div>
 
 </body>
 </html>
